@@ -15,11 +15,14 @@
 
 #include <socketcan_interface/dispatcher.h>
 
+#include <stdexcept>
+
 namespace can {
 
 class SocketCANInterface : public AsioDriver<boost::asio::posix::stream_descriptor> {
     bool loopback_;
     int sc_;
+    can_err_mask_t err_mask_;
 public:
     SocketCANInterface()
     : loopback_(false), sc_(-1)
@@ -51,7 +54,7 @@ public:
                 close(sc);
                 return false;
             }
-            can_err_mask_t err_mask =
+            err_mask_ =
                 ( CAN_ERR_TX_TIMEOUT   /* TX timeout (by netdevice driver) */
                 | CAN_ERR_LOSTARB      /* lost arbitration    / data[0]    */
                 | CAN_ERR_CRTL         /* controller problems / data[1]    */
@@ -64,7 +67,7 @@ public:
             );
 
             ret = setsockopt(sc, SOL_CAN_RAW, CAN_RAW_ERR_FILTER,
-               &err_mask, sizeof(err_mask));
+               &err_mask_, sizeof(err_mask_));
 
             if(ret != 0){
                 setErrorCode(boost::system::error_code(ret,boost::system::system_category()));
@@ -157,6 +160,15 @@ public:
     int getInternalSocket() {
         return sc_;
     }
+
+    virtual void disableLostArbError(){
+        disableErrorType(CAN_ERR_LOSTARB);
+    }
+
+    virtual void disableControllerProblemError(){
+        disableErrorType(CAN_ERR_CRTL);
+    }
+
 protected:
     std::string device_;
     can_frame frame_;
@@ -216,6 +228,21 @@ protected:
     }
 private:
     boost::mutex send_mutex_;
+
+    void disableErrorType(can_err_mask_t error_type){
+        if(sc_ == -1){
+          throw std::runtime_error("Setting new error mask on CAN socket failed, socket uninitialized");
+        }
+
+        err_mask_ &= ~error_type;
+        int ret = setsockopt(sc_, SOL_CAN_RAW, CAN_RAW_ERR_FILTER,
+           &err_mask_, sizeof(err_mask_));
+        if(ret != 0){
+            setErrorCode(boost::system::error_code(ret,boost::system::system_category()));
+            close(sc_);
+            throw std::runtime_error("Setting new error mask on CAN socket failed, aborting");
+        }
+    }
 };
 
 typedef SocketCANInterface SocketCANDriver;
