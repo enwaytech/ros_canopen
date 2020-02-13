@@ -1,0 +1,19 @@
+<library path="lib/libsocketcan_bridge_nodelets">
+  <class name="socketcan_bridge/SocketcanBridgeNodelet" type="socketcan_bridge::SocketcanBridgeNodelet" base_class_type="nodelet::Nodelet">
+  <description>
+  This is my nodelet.
+  </description>
+  </class>
+
+  <class name="socketcan_bridge/SocketcanToTopicNodelet" type="socketcan_bridge::SocketcanToTopicNodelet" base_class_type="nodelet::Nodelet">
+  <description>
+  This is my nodelet.
+  </description>
+  </class>
+
+  <class name="socketcan_bridge/TopicToSocketcanNodelet" type="socketcan_bridge::TopicToSocketcanNodelet" base_class_type="nodelet::Nodelet">
+  <description>
+  This is my nodelet.
+  </description>
+  </class>
+</library>

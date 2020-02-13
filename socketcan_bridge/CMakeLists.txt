@@ -16,6 +16,7 @@ catkin_package(
     topic_to_socketcan
   CATKIN_DEPENDS
     can_msgs
+    nodelet
     roscpp
     socketcan_interface
 )
@@ -76,6 +77,18 @@ target_link_libraries(${PROJECT_NAME}_node
   socketcan_to_topic
   ${catkin_LIBRARIES}
 )
+
+add_library(socketcan_bridge_nodelets
+  src/socketcan_bridge_nodelet.cpp
+  src/socketcan_to_topic_nodelet.cpp
+  src/topic_to_socketcan_nodelet.cpp
+
+)
+target_link_libraries(socketcan_bridge_nodelets ${catkin_LIBRARIES})
+if(catkin_EXPORTED_LIBRARIES)
+  add_dependencies(socketcan_bridge_nodelets ${catkin_EXPORTED_LIBRARIES})
+endif()
+
 
 install(
   TARGETS
