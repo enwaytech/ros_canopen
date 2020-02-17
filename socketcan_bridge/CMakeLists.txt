@@ -84,7 +84,11 @@ add_library(socketcan_bridge_nodelets
   src/topic_to_socketcan_nodelet.cpp
 
 )
-target_link_libraries(socketcan_bridge_nodelets ${catkin_LIBRARIES})
+target_link_libraries(socketcan_bridge_nodelets 
+  ${catkin_LIBRARIES}
+  topic_to_socketcan
+  socketcan_to_topic
+  )
 if(catkin_EXPORTED_LIBRARIES)
   add_dependencies(socketcan_bridge_nodelets ${catkin_EXPORTED_LIBRARIES})
 endif()

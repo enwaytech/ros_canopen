@@ -124,4 +124,18 @@ namespace socketcan_bridge
         ROS_ERROR("Error: %s, asio: %s", err.c_str(), s.error_code.message().c_str());
       }
     };
+
+  void convertSocketCANToMessage(const can::Frame& f, can_msgs::Frame& m)
+    {
+      m.id = f.id;
+      m.dlc = f.dlc;
+      m.is_error = f.is_error;
+      m.is_rtr = f.is_rtr;
+      m.is_extended = f.is_extended;
+
+      for (int i = 0; i < 8; i++)  // always copy all data, regardless of dlc.
+      {
+        m.data[i] = f.data[i];
+      }
+    }
 };  // namespace socketcan_bridge

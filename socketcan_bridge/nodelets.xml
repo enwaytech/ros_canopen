@@ -1,19 +1,19 @@
 <library path="lib/libsocketcan_bridge_nodelets">
   <class name="socketcan_bridge/SocketcanBridgeNodelet" type="socketcan_bridge::SocketcanBridgeNodelet" base_class_type="nodelet::Nodelet">
-  <description>
-  This is my nodelet.
-  </description>
+    <description>
+      socketcan ros nodelet that sends/receives message to/from socketcan interface.
+    </description>
   </class>
 
   <class name="socketcan_bridge/SocketcanToTopicNodelet" type="socketcan_bridge::SocketcanToTopicNodelet" base_class_type="nodelet::Nodelet">
-  <description>
-  This is my nodelet.
-  </description>
+    <description>
+      socketcan ros nodelet that receives message from socketcan interface.
+    </description>
   </class>
 
   <class name="socketcan_bridge/TopicToSocketcanNodelet" type="socketcan_bridge::TopicToSocketcanNodelet" base_class_type="nodelet::Nodelet">
-  <description>
-  This is my nodelet.
-  </description>
+    <description>
+      socketcan ros nodelet that sends message to socketcan interface.
+    </description>
   </class>
 </library>
