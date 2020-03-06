@@ -7,7 +7,6 @@
 
 #include "socketcan_bridge/socketcan_to_topic.h"
 
-//#include <socketcan_interface/string.h>
 #include <socketcan_interface/threading.h>
 
 #include <nodelet/nodelet.h>
@@ -21,11 +20,9 @@ namespace socketcan_bridge
 class SocketcanToTopicNodelet : public nodelet::Nodelet
 {
   public:
-    SocketcanToTopicNodelet();
+    SocketcanToTopicNodelet() = default;
     virtual ~SocketcanToTopicNodelet();
     void onInit() final;
-
-  //protected:
 
   private:
     can::ThreadedSocketCANInterfaceSharedPtr driver_; 

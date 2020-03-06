@@ -20,7 +20,7 @@ namespace socketcan_bridge
 class TopicToSocketcanNodelet : public nodelet::Nodelet
 {
   public:
-    TopicToSocketcanNodelet();
+    TopicToSocketcanNodelet() = default;
     virtual ~TopicToSocketcanNodelet();
     void onInit() final;
   

@@ -9,11 +9,6 @@
 
 PLUGINLIB_EXPORT_CLASS(socketcan_bridge::SocketcanToTopicNodelet, nodelet::Nodelet)
 
-socketcan_bridge::SocketcanToTopicNodelet::SocketcanToTopicNodelet():
-  driver_{},
-  to_topic_bridge_ptr_{nullptr}
-{}
-
 socketcan_bridge::SocketcanToTopicNodelet::~SocketcanToTopicNodelet()
 {
   driver_->shutdown();

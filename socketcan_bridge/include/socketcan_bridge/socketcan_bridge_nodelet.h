@@ -8,7 +8,6 @@
 #include "socketcan_bridge/socketcan_to_topic.h"
 #include "socketcan_bridge/topic_to_socketcan.h"
 
-//#include <socketcan_interface/string.h>
 #include <socketcan_interface/threading.h>
 
 #include <nodelet/nodelet.h>
@@ -22,7 +21,7 @@ namespace socketcan_bridge
 class SocketcanBridgeNodelet : public nodelet::Nodelet
 {
   public:
-    SocketcanBridgeNodelet();
+    SocketcanBridgeNodelet() = default;
     virtual ~SocketcanBridgeNodelet();
     void onInit() final;
 
