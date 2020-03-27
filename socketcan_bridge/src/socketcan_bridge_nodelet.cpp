@@ -31,9 +31,9 @@ void socketcan_bridge::SocketcanBridgeNodelet::onInit()
     NODELET_INFO("Successfully connected to %s.", can_device.c_str());
   }
 
-  to_socketcan_bridge_ptr_.reset(new socketcan_bridge::TopicToSocketCAN(&nh, &nh, driver_));
+  to_socketcan_bridge_ptr_ = std::make_unique<socketcan_bridge::TopicToSocketCAN>{&nh, &nh, driver_};
   to_socketcan_bridge_ptr_->setup();
 
-  to_topic_bridge_ptr_.reset(new socketcan_bridge::SocketCANToTopic(&nh, &nh, driver_));
+  to_topic_bridge_ptr_ = std::make_unique<socketcan_bridge::SocketCANToTopic>{&nh, &nh, driver_};
   to_topic_bridge_ptr_->setup(nh);
 }

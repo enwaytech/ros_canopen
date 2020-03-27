@@ -27,9 +27,6 @@ class TopicToSocketcanNodelet : public nodelet::Nodelet
   private:
     can::ThreadedSocketCANInterfaceSharedPtr driver_; 
     std::unique_ptr<socketcan_bridge::TopicToSocketCAN> to_socketcan_bridge_ptr_;
-  
 };
-
 } //namespace socketcan_bridge
-
 #endif //TOPIC_TO_SOCKETCAN_NODELET_CPP_H
