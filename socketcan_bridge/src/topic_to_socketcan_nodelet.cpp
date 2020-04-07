@@ -20,7 +20,7 @@ void socketcan_bridge::TopicToSocketcanNodelet::onInit()
   std::string can_device;
   nh.param<std::string>("can_device", can_device, "can0");
 
-  driver_ = boost::make_shared<can::ThreadedSocketCANInterface>s();
+  driver_ = boost::make_shared<can::ThreadedSocketCANInterface>();
   if (!driver_->init(can_device, 0))  // initialize device at can_device, 0 for no loopback.
   {
     NODELET_FATAL("Failed to initialize can_device at %s", can_device.c_str());
