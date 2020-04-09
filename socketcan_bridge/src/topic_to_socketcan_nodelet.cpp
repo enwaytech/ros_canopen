@@ -16,9 +16,10 @@ socketcan_bridge::TopicToSocketcanNodelet::~TopicToSocketcanNodelet()
 
 void socketcan_bridge::TopicToSocketcanNodelet::onInit()
 {
-  ros::NodeHandle nh = getPrivateNodeHandle();
+  ros::NodeHandle nh = getNodeHandle();
+  ros::NodeHandle nh_param = getPrivateNodeHandle();
   std::string can_device;
-  nh.param<std::string>("can_device", can_device, "can0");
+  nh_param.param<std::string>("can_device", can_device, "can0");
 
   driver_ = boost::make_shared<can::ThreadedSocketCANInterface>();
   if (!driver_->init(can_device, 0))  // initialize device at can_device, 0 for no loopback.
@@ -31,6 +32,6 @@ void socketcan_bridge::TopicToSocketcanNodelet::onInit()
     NODELET_INFO("Successfully connected to %s.", can_device.c_str());
   }
 
-  to_socketcan_bridge_ptr_ = std::make_unique<socketcan_bridge::TopicToSocketCAN>(&nh, &nh, driver_);
+  to_socketcan_bridge_ptr_ = std::make_unique<socketcan_bridge::TopicToSocketCAN>(&nh, &nh_param, driver_);
   to_socketcan_bridge_ptr_->setup();
 }
