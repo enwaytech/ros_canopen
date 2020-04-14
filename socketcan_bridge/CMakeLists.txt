@@ -82,7 +82,6 @@ add_library(socketcan_bridge_nodelets
   src/socketcan_bridge_nodelet.cpp
   src/socketcan_to_topic_nodelet.cpp
   src/topic_to_socketcan_nodelet.cpp
-
 )
 target_link_libraries(socketcan_bridge_nodelets 
   ${catkin_LIBRARIES}
