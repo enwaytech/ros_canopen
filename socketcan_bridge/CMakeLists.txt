@@ -16,6 +16,7 @@ catkin_package(
     topic_to_socketcan
   CATKIN_DEPENDS
     can_msgs
+    nodelet
     roscpp
     socketcan_interface
 )
@@ -77,6 +78,21 @@ target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
 )
 
+add_library(socketcan_bridge_nodelets
+  src/socketcan_bridge_nodelet.cpp
+  src/socketcan_to_topic_nodelet.cpp
+  src/topic_to_socketcan_nodelet.cpp
+)
+target_link_libraries(socketcan_bridge_nodelets 
+  ${catkin_LIBRARIES}
+  topic_to_socketcan
+  socketcan_to_topic
+  )
+if(catkin_EXPORTED_LIBRARIES)
+  add_dependencies(socketcan_bridge_nodelets ${catkin_EXPORTED_LIBRARIES})
+endif()
+
+
 install(
   TARGETS
     ${PROJECT_NAME}_node
@@ -84,6 +100,7 @@ install(
     socketcan_to_topic_node
     topic_to_socketcan
     topic_to_socketcan_node
+    socketcan_bridge_nodelets
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -94,6 +111,8 @@ install(
     include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
+
+install(FILES nodelets.xml DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 if(CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
